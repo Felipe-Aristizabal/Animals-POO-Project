@@ -4,5 +4,9 @@ public class animalBehaviour : ObjectBehaviour
     {
         base.OnMouseDown();
         textElement.text = "You click an: Animal";
+        int score = GetActualScore();
+        AddPoints(score + 3);
+        SetActualScore();
+        addClick("Animal");
     }
 }

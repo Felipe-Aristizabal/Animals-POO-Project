@@ -4,5 +4,9 @@ public class WindmillBehaviour : ObjectBehaviour
     {
         base.OnMouseDown();
         textElement.text = "You click a: Windmill Tower";
+        int score = GetActualScore();
+        AddPoints(score + 3);
+        SetActualScore();
+        addClick("Windmill");
     }
 }

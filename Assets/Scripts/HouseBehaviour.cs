@@ -4,5 +4,9 @@ public class HouseBehaviour : ObjectBehaviour
     {
         base.OnMouseDown();
         textElement.text = "You click a: House";
+        int score = GetActualScore();
+        AddPoints(score + 1);
+        SetActualScore();
+        addClick("House");
     }
 }

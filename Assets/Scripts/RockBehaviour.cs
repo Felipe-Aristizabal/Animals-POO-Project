@@ -4,5 +4,9 @@ public class RockBehaviour : ObjectBehaviour
     {
         base.OnMouseDown();
         textElement.text = "You click a: Rock";
+        int score = GetActualScore();
+        AddPoints(score + 2);
+        SetActualScore();
+        addClick("Rock");
     }
 }

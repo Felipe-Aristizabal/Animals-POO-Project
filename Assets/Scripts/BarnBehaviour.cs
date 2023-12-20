@@ -4,5 +4,9 @@ public class BarnBehaviour : ObjectBehaviour
     {
         base.OnMouseDown();
         textElement.text = "You click a: Barn";
+        int score = GetActualScore();
+        AddPoints(score + 2);
+        SetActualScore();
+        addClick("Barn");
     }
 }
