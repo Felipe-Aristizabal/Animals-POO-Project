@@ -1,5 +1,7 @@
 # Click and Count
 
+<img src="https://github.com/Felipe-Aristizabal/ClickAndCount/blob/main/ClickAndCount.png" width="300" height="300" alt="Click and Count Logo">
+
 ## Description
 
 "Click and Count" is an adrenaline-pumping game where precision and pace go hand in hand. Dive into a world where every click counts, and time is of the essence. Your mission: to click all objects on the screen before time slips away.
