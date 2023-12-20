@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         if (AreAllObjectsClicked() && !congratulationMessageShown)
         {
             textElement.text = "Congratulations, you clicked all the objects.";              // Displays a congratulatory message
+            SceneManagement.instance.correctDing.Play();
             congratulationMessageShown = true;
             StartCoroutine(WaitAndEndGame(3.0f));
         }
@@ -58,9 +59,12 @@ public class GameManager : MonoBehaviour
                 timeTxt.text = $"Time: {time} seconds";
             }
         }
-
-        textElement.text = "Game over, you could not click on everything.";              
-        StartCoroutine(WaitAndEndGame(2.0f));
+        if (!AreAllObjectsClicked())
+        {
+            textElement.text = "Game over, you could not click on everything."; 
+            SceneManagement.instance.incorrectDing.Play();             
+            StartCoroutine(WaitAndEndGame(2.0f));
+        } 
     }
 
     public void SaveBestData()
