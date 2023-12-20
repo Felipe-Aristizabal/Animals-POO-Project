@@ -10,24 +10,57 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text ScoreText;                                                // Reference to a UI Text component
     [SerializeField] private Text BestPlayer;                                               // Reference to a UI Text component
     [SerializeField] private SceneManagement sceneManagement;                               // Reference to a scene management component
+    [SerializeField] Text timeTxt;                                                          // Reference to a UI Text component
     private string player;                                                                  // Stores the player's name
     private string bestPlayer;                                                              // Stores the best player's name
     private int bestScore;                                                                  // Stores the best score
+    private bool congratulationMessageShown = false;
+    private float time;
 
     void Start()
     {
         LoadData(); // Loads player data from PlayerPrefs
+        StartGameTimer();
     }
 
     void Update()
     {
-        ScoreText.text = $"Score : {DataManagement.instance.GetScorePlayer()}";             // Updates the UI with the player's score
+        ScoreText.text = $"Score: {player} : {DataManagement.instance.GetScorePlayer()}";             // Updates the UI with the player's score
         // ABSTRACTION - Checks if all objects are clicked
-        if (AreAllObjectsClicked())
+        if (AreAllObjectsClicked() && !congratulationMessageShown)
         {
-            textElement.text = "Congratulations, you clicked all the objects";              // Displays a congratulatory message
-            GameOver(); // Calls the game over logic
+            textElement.text = "Congratulations, you clicked all the objects.";              // Displays a congratulatory message
+            congratulationMessageShown = true;
+            StartCoroutine(WaitAndEndGame(3.0f));
         }
+    }
+
+    IEnumerator WaitAndEndGame(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime); 
+        GameOver(); 
+    }
+
+    public void StartGameTimer()
+    {
+        time = 10.0f;
+        StartCoroutine(Countdown());
+    }
+
+    private IEnumerator Countdown()
+    {
+        while (time > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            time--;
+            if (timeTxt != null)
+            {
+                timeTxt.text = $"Time: {time} seconds";
+            }
+        }
+
+        textElement.text = "Game over, you could not click on everything.";              
+        StartCoroutine(WaitAndEndGame(2.0f));
     }
 
     public void SaveBestData()
@@ -43,7 +76,7 @@ public class GameManager : MonoBehaviour
         player = DataManagement.instance.GetPlayerName();
         bestPlayer = DataManagement.instance.GetBestPlayer();
         bestScore = DataManagement.instance.GetBestScore();
-        BestPlayer.text = $"Best Score : {bestPlayer} - {bestScore}";                       // Updates the UI with the best player's data
+        BestPlayer.text = $"Best Score: {bestPlayer} : {bestScore}";                       // Updates the UI with the best player's data
     }
 
     void manageBestScore()
@@ -69,6 +102,14 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         manageBestScore();                                                            // Manages the best score before proceeding to game over
-        SceneManagement.instance.LoadScene("menu");                                   // Loads the "menu" scene
-    }
+        ResetGameState();                                                             // Loads the "menu" scene
+   }
+
+   public void ResetGameState()
+   {
+        DataManagement.instance.SetScorePlayer(0);
+        DataManagement.instance.SetPlayerName("");
+
+        SceneManagement.instance.LoadScene("Menu");
+   }
 }
