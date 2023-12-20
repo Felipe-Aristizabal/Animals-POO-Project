@@ -1,5 +1,7 @@
+// INHERITANCE - This class inherits from ObjectBehaviour
 public class WindmillBehaviour : ObjectBehaviour
 {
+    // POLYMORPHISM - Overriding the OnMouseDown method from the base class
     public override void OnMouseDown()
     {
         base.OnMouseDown();
